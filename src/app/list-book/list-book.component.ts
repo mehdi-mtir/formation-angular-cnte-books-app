@@ -1,46 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Book } from '../model/book';
+import { BookService } from '../services/book.service';
 
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
   styleUrls: ['./list-book.component.css']
 })
-export class ListBookComponent {
-  books = [
-    new Book(1, "Atomic habits", "James clear", 20),
-    new Book(2, "The slight edge", "Jeff Olsen", 30),
-    new Book(3, "Power of habits", "Charles Duhigg", 25)
-  ]
-  action = ''
-  bookToEdit? : Book;
+export class ListBookComponent implements OnInit {
+  books? : Book[];
 
-  changeAction(newAction : string) : void{
-    this.action = newAction
-  }
+  constructor(private service : BookService){}
 
-  showEdit(book : Book){
-    this.bookToEdit = book;
-    this.changeAction('edit');
-  }
-
-  editBook(book : Book){
-    this.books = this.books.map(
-      b=>b.id===book.id?book:b
-    )
-    this.changeAction('');
-  }
-
-  deleteBook(id : number){
-    if (confirm('Êtes-vous sûre de vouloir supprimer le livre?'))
-      this.books = this.books.filter(
-        b=>b.id!==id
-      )
-    }
-
-  addBookToList(book : Book){
-    this.books.push(book);
-    this.changeAction('');
+  ngOnInit(): void {
+      this.books = this.service.getBooks();
   }
 
 }

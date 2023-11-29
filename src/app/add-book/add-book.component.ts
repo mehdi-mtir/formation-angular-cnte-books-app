@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Book } from '../model/book';
 import { NgForm } from '@angular/forms';
+import { BookService } from '../services/book.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-book',
@@ -8,23 +10,20 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./add-book.component.css']
 })
 export class AddBookComponent {
-  @Input() lastId? : number;
-  @Output() bookToAdd = new EventEmitter<Book>();
 
-  /*addBook(title : string, author : string, price : number){
-    const book = new Book(this.lastId!+1, title, author, price);
-    this.bookToAdd.emit(book);
-  }*/
+  constructor(private service : BookService,
+    private router : Router){}
 
   addBook(f : NgForm){
     console.log(f)
     const book = new Book(
-      this.lastId!+1,
+      this.service.getLastId() + 1,
       f.value.title,
       f.value.author,
       f.value.price
     );
-    this.bookToAdd.emit(book);
+    this.service.addBook(book);
+    this.router.navigate(['/books']);
   }
 
 }
