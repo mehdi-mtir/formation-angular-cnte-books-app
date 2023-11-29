@@ -17,7 +17,7 @@
       <td>{{book.title}}</td>
       <td>{{book.author}}</td>
       <td>{{book.price}}</td>
-      <td><button class="btn btn-primary">Editer</button></td>
+      <td><button class="btn btn-primary" (click)="showEdit(book)">Editer</button></td>
       <td><button class="btn btn-danger">Supprimer</button></td>
     </tr>
   </tbody>
@@ -27,3 +27,8 @@
   *ngIf="action === 'add'"
   [lastId]="books[books.length-1].id"
   (bookToAdd)="addBookToList($event)" ></app-add-book>
+
+<app-edit-book
+  *ngIf="action === 'edit'"
+  [book]="bookToEdit"
+  (bookEdited)="editBook($event)"></app-edit-book>

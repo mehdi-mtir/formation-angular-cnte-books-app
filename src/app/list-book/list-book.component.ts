@@ -13,9 +13,22 @@ export class ListBookComponent {
     new Book(3, "Power of habits", "Charles Duhigg", 25)
   ]
   action = ''
+  bookToEdit? : Book;
 
   changeAction(newAction : string) : void{
     this.action = newAction
+  }
+
+  showEdit(book : Book){
+    this.bookToEdit = book;
+    this.changeAction('edit');
+  }
+
+  editBook(book : Book){
+    this.books = this.books.map(
+      b=>b.id===book.id?book:b
+    )
+    this.changeAction('');
   }
 
   addBookToList(book : Book){
