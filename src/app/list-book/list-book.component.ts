@@ -31,6 +31,13 @@ export class ListBookComponent {
     this.changeAction('');
   }
 
+  deleteBook(id : number){
+    if (confirm('Êtes-vous sûre de vouloir supprimer le livre?'))
+      this.books = this.books.filter(
+        b=>b.id!==id
+      )
+    }
+
   addBookToList(book : Book){
     this.books.push(book);
     this.changeAction('');
