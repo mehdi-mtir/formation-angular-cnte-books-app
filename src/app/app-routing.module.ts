@@ -7,11 +7,13 @@ const routes: Routes = [
   {path : '', component : HomeComponent },
   {
     path: 'books',
-    loadChildren: () => import('./books/books.module').then(m => m.BooksModule)
+    loadChildren: () => import('./books/books.module')
+                          .then(m => m.BooksModule)
   },
   {
     path: 'users',
-    loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
+    loadChildren: () => import('./users/users.module')
+                          .then(m => m.UsersModule)
   }
 ];
 
