@@ -14,9 +14,9 @@
   <tbody>
     <tr *ngFor="let book of books">
       <th scope="row">{{book.id}}</th>
-      <td>{{book.title}}</td>
-      <td>{{book.author}}</td>
-      <td>{{book.price}}</td>
+      <td>{{book.title | uppercase}}</td>
+      <td>{{book.author | lowercase}}</td>
+      <td>{{book.price | currency : 'EUR '}}</td>
       <td><button class="btn btn-primary" [routerLink]="['/books', 'edit', book.id]" >Editer</button></td>
       <td><button class="btn btn-danger" (click)="deleteBook(book.id)" >Supprimer</button></td>
     </tr>
