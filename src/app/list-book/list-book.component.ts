@@ -12,8 +12,15 @@ export class ListBookComponent implements OnInit {
 
   constructor(private service : BookService){}
 
+  deleteBook(id : number){
+    this.service.deleteBook(id);
+  }
+
   ngOnInit(): void {
       this.books = this.service.getBooks();
+      this.service.booksChanged.subscribe(
+        books => this.books = books
+      )
   }
 
 }
