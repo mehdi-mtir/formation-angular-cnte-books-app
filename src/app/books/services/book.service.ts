@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../model/book';
 import { Observable, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +41,25 @@ export class BookService {
     return this.books[this.books.length-1].id
   }
 
-  addBook(book : Book){
-    this.books = [...this.books, book];
+  addBook(book : Object){
+    const options = {
+      headers: new HttpHeaders(
+        { 'content-type': 'application/json'}
+        )
+    };
+    this.http.post<Book>(this.baseUrl, book, options ).subscribe(
+      {
+        next : book=>{
+          this.books = [...this.books, book];
+          this.booksChanged.next(this.books);
+          },
+        error : error => console.log(error),
+        complete : ()=>console.log('requête terminée! ')
+      }
+
+    )
+
+
   }
 
   editBook(book : Book){

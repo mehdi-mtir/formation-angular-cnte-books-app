@@ -16,12 +16,11 @@ export class AddBookComponent {
 
   addBook(f : NgForm){
     console.log(f)
-    const book = new Book(
-      this.service.getLastId() + 1,
-      f.value.title,
-      f.value.author,
-      f.value.price
-    );
+    const book = {
+      title : f.value.title,
+      author : f.value.author,
+      price : f.value.price
+    };
     this.service.addBook(book);
     this.router.navigate(['/books']);
   }
