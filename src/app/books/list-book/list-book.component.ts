@@ -17,9 +17,10 @@ export class ListBookComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.service.getBooks().subscribe(
+      /*this.service.getBooks().subscribe(
         books => this.books=books
-      )
+      )*/
+      this.books = this.service.getBooks();
       this.service.booksChanged.subscribe(
         books => this.books = books
       )

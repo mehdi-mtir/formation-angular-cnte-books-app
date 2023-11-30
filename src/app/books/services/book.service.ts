@@ -15,9 +15,19 @@ export class BookService {
 
   constructor(private http : HttpClient) { }
 
-  getBooks() : Observable<Book[]>{
+  /*getBooks() : Observable<Book[]>{
     return this.http.get<Book[]>(this.baseUrl)
     //return [...this.books];
+  }*/
+
+  getBooks() : Book[]{
+    this.http.get<Book[]>(this.baseUrl).subscribe(
+      books =>{
+        this.books = books;
+        this.booksChanged.next(this.books)
+      }
+    )
+    return this.books;
   }
 
   getBookById(id : number):Book{
