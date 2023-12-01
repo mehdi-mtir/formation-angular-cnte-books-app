@@ -22,10 +22,15 @@ export class BookService {
 
   getBooks() : Book[]{
     this.http.get<Book[]>(this.baseUrl).subscribe(
-      books =>{
-        this.books = books;
-        this.booksChanged.next(this.books)
+      {
+        next : books =>{
+                this.books = books;
+                this.booksChanged.next(this.books)
+              },
+        error : err => console.log(err),
+        complete : ()=>console.log('Completed!')
       }
+
     )
     return this.books;
   }
@@ -63,17 +68,37 @@ export class BookService {
   }
 
   editBook(book : Book){
-    this.books = this.books.map(
-      b=>b.id===book.id?book:b
+    const options = {
+      headers: new HttpHeaders(
+        { 'content-type': 'application/json'}
+        )
+    };
+    this.http.put<Book>(
+      `${this.baseUrl}/${book.id}`,
+      {title : book.title, author : book.author, price : book.price},
+      options
+    ).subscribe(
+      book => {
+              this.books = this.books.map(
+                b=>b.id===book.id?book:b
+              );
+              this.booksChanged.next(this.books);
+      }
     )
   }
 
   deleteBook(id : number){
     if (confirm('Êtes-vous sûre de vouloir supprimer le livre?'))
-      this.books = this.books.filter(
-        b=>b.id!==id
+     this.http.delete(`${this.baseUrl}/${id}`).subscribe(
+      ()=>{
+        this.books = this.books.filter(
+          b=>b.id!==id
+        )
+        this.booksChanged.next([...this.books]);
+      }
     )
-    this.booksChanged.next([...this.books]);
+
+
     //console.log(this.books);
   }
 }
